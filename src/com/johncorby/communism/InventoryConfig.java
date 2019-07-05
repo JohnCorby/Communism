@@ -8,6 +8,7 @@ import java.util.List;
 import static com.johncorby.communism.InventoryHandler.inventories;
 import static com.johncorby.communism.Main.PLUGIN;
 import static com.johncorby.communism.Main.WORLDS;
+import static com.johncorby.communism.Utils.debug;
 
 public class InventoryConfig {
     public static void load() {
@@ -27,10 +28,14 @@ public class InventoryConfig {
         for (var key : inventories.keySet())
             if (!WORLDS.contains(key))
                 inventories.remove(key);
+
+        debug("loaded inventories");
     }
 
     public static void save() {
         PLUGIN.getConfig().set("inventories", inventories);
         PLUGIN.saveConfig();
+
+        debug("saved inventories");
     }
 }

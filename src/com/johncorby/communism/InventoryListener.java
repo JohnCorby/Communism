@@ -9,8 +9,12 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import java.util.Arrays;
+
 import static com.johncorby.communism.InventoryHandler.inventories;
 import static com.johncorby.communism.InventoryHandler.inventoryMightChange;
+import static com.johncorby.communism.Utils.debug;
+import static com.johncorby.communism.Utils.runTask;
 
 public class InventoryListener implements Listener {
     /**
@@ -22,10 +26,19 @@ public class InventoryListener implements Listener {
         var to = event.getTo().getWorld().getName();
 
         if (from.equals(to)) return;
-        if (!inventories.containsKey(to)) return;
 
-        // item cloning happens implicitly
-        event.getPlayer().getInventory().setContents(inventories.get(to));
+        var globalInventory = inventories.getOrDefault(to, null);
+        if (globalInventory == null) return;
+
+        // set inventory on next tick, since that'll be after the player actually teleported
+        runTask(() -> {
+            if (Arrays.equals(event.getPlayer().getInventory().getContents(), globalInventory)) return;
+
+            // item cloning happens implicitly
+            event.getPlayer().getInventory().setContents(inventories.get(to));
+
+            debug("updated items for", event.getPlayer());
+        });
     }
 
     @EventHandler

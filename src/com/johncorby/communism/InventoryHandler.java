@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.johncorby.communism.Utils.print;
+import static com.johncorby.communism.Main.DEBUG;
+import static com.johncorby.communism.Utils.debug;
 import static com.johncorby.communism.Utils.runTask;
 
 /**
@@ -35,24 +36,25 @@ public class InventoryHandler {
 
         // inventory getting runs on next tick, since that's when inventory actually changes
         runTask(() -> {
+            debug("inventory for", changedPlayer, "might have changed");
+
             var playerInventory = changedPlayer.getInventory().getContents();
             if (Arrays.equals(playerInventory, globalInventory)) return;
 
-            // store in global inventory, copying into new array and cloning item (see notes)
-            printChanges(changedPlayer);
-            for (var i = 0; i < playerInventory.length; i++) {
-                if (playerInventory[i] == null) continue;
-                if (playerInventory[i].equals(globalInventory[i])) continue;
+            debugChanges(changedPlayer);
 
-                globalInventory[i] = playerInventory[i].clone();
-            }
+            // store in global inventory, copying into new array and cloning item (see notes)
+            for (var i = 0; i < playerInventory.length; i++)
+                if (!Objects.equals(playerInventory[i], globalInventory[i]))
+                    globalInventory[i] = playerInventory[i] == null ? null : playerInventory[i].clone();
 
             // update other player's inventories if needed
             for (var player : world.getPlayers()) {
                 if (player.equals(changedPlayer)) continue;
                 if (Arrays.equals(player.getInventory().getContents(), globalInventory)) continue;
 
-                printChanges(player);
+                debugChanges(player);
+
                 player.getInventory().setContents(globalInventory);
             }
         });
@@ -62,8 +64,9 @@ public class InventoryHandler {
      * print changes between player and global inventory
      * slow cuz of unneeded cloning, map searching
      */
-    private static void printChanges(Player player) {
-        var name = player.getDisplayName();
+    private static void debugChanges(Player player) {
+        if (!DEBUG) return;
+
         var playerInventory = player.getInventory().getContents();
         var globalInventory = inventories.get(player.getWorld().getName());
 
@@ -71,6 +74,6 @@ public class InventoryHandler {
 
         for (var i = 0; i < playerInventory.length; i++)
             if (!Objects.equals(playerInventory[i], globalInventory[i]))
-                print(name, " - ", i, ": ", playerInventory[i], " vs ", globalInventory[i]);
+                debug(player, "-", i + ":", playerInventory[i], "vs", globalInventory[i]);
     }
 }

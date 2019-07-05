@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 
 public class Main extends JavaPlugin {
+    public static final boolean DEBUG = true;
     public static Main PLUGIN;
 
     public static List<String> WORLDS;
@@ -18,8 +19,6 @@ public class Main extends JavaPlugin {
         InventoryConfig.load();
 
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
-
-        getLogger().info("Communism Enabled");
     }
 
     @Override
