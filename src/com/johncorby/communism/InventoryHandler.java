@@ -1,11 +1,13 @@
 package com.johncorby.communism;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-import static com.johncorby.communism.InventoryConfig.inventories;
 import static com.johncorby.communism.Utils.print;
 import static com.johncorby.communism.Utils.runTask;
 
@@ -16,6 +18,11 @@ import static com.johncorby.communism.Utils.runTask;
  * cloning bukkit item also clones nms item
  */
 public class InventoryHandler {
+    /**
+     * stores state of inventory (1 per world)
+     */
+    public static final Map<String, ItemStack[]> inventories = new HashMap<>();
+
     /**
      * called right before player's inventory supposedly changes
      */

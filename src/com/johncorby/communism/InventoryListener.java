@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import static com.johncorby.communism.InventoryConfig.inventories;
+import static com.johncorby.communism.InventoryHandler.inventories;
 import static com.johncorby.communism.InventoryHandler.inventoryMightChange;
 
 public class InventoryListener implements Listener {
