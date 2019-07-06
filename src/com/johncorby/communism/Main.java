@@ -4,6 +4,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
+/**
+ * TODO
+ * add more events that change player inventory
+ * make it happen with nether and end
+ * sync health, xp, effects
+ * <p>
+ * SYNC BUGS (not syncing but inventory changes)
+ * clicking autocraft
+ * pressing escape from crafting table (possibly other stuff)
+ */
 public class Main extends JavaPlugin {
     public static final boolean DEBUG = true;
     public static Main PLUGIN;
@@ -18,7 +28,7 @@ public class Main extends JavaPlugin {
         WORLDS = getConfig().getStringList("worlds");
         InventoryConfig.load();
 
-        getServer().getPluginManager().registerEvents(new InventoryListener(), this);
+        new SyncListener();
     }
 
     @Override

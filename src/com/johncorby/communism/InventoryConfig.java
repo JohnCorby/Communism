@@ -5,9 +5,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-import static com.johncorby.communism.InventoryHandler.inventories;
 import static com.johncorby.communism.Main.PLUGIN;
 import static com.johncorby.communism.Main.WORLDS;
+import static com.johncorby.communism.SyncHandler.inventories;
 import static com.johncorby.communism.Utils.debug;
 
 public class InventoryConfig {

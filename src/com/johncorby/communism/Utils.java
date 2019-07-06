@@ -23,7 +23,7 @@ public class Utils {
         PLUGIN.getLogger().info(msg.toString());
     }
 
-    public static void runTask(Runnable runnable) {
+    public static void runNextTick(Runnable runnable) {
         new BukkitRunnable() {
             @Override
             public void run() {
