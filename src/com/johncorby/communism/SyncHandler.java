@@ -39,14 +39,13 @@ public class SyncHandler {
         debug("syncing");
 
         // push to global
-        if (push(causer.getInventory().getContents(), globalInv)) {
-            // pull only if push succeeds
+        // pull only if push succeeds
+        if (push(causer.getInventory().getContents(), globalInv))
             for (var player : causer.getWorld().getPlayers()) {
                 if (player.equals(causer)) continue;
 
                 pull(globalInv, player.getInventory());
             }
-        }
     }
 
     /**
